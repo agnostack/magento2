@@ -5,11 +5,12 @@
 /**
  * @api
  */
-define([
+ define([
     'ko',
     'underscore',
+    'Magento_Checkout/js/model/address-converter',
     'domReady!'
-], function (ko, _) {
+], function (ko, _, addressConverter) {
     'use strict';
 
     /**
@@ -26,8 +27,16 @@ define([
 
             return data;
         },
-        billingAddress = ko.observable(null),
-        shippingAddress = ko.observable(null),
+        billingAddress = ko.observable(
+            addressConverter.formAddressDataToQuoteAddress(
+                window.checkoutConfig.billingAddressFromData
+            )
+        ),
+        shippingAddress = ko.observable(
+            addressConverter.formAddressDataToQuoteAddress(
+                window.checkoutConfig.shippingAddressFromData
+            )
+        ),
         shippingMethod = ko.observable(null),
         paymentMethod = ko.observable(null),
         quoteData = window.checkoutConfig.quoteData,

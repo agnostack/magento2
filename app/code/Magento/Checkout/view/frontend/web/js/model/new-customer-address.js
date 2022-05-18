@@ -17,6 +17,7 @@ define([
      */
     return function (addressData) {
         var identifier = Date.now(),
+            customerAddressId = addressData['customer_address_id'] || addressData.customerAddressId || window.checkoutConfig.customerAddressId,
             countryId = addressData['country_id'] || addressData.countryId || window.checkoutConfig.defaultCountryId,
             regionId;
 
@@ -35,6 +36,7 @@ define([
 
         return {
             email: addressData.email,
+            customerAddressId: customerAddressId,
             countryId: countryId,
             regionId: regionId || addressData.regionId,
             regionCode: addressData.region ? addressData.region['region_code'] : null,
@@ -74,6 +76,9 @@ define([
              * @return {String}
              */
             getType: function () {
+                if (customerAddressId != undefined) {
+                    return 'customer-address' + customerAddressId;
+                }
                 return 'new-customer-address';
             },
 
